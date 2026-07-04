@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head><title>My account</title></head>
+<body>
+<section th:fragment="content" class="page-shell">
+    <div class="page-heading">
+        <p class="eyebrow">My account</p>
+        <h1>Welcome back, <span th:text="${user.fullName}">Friend</span></h1>
+        <p>Your dashboard for orders, saved preferences, and your current shopping bag.</p>
+    </div>
+    <div class="account-grid">
+        <div class="card">
+            <h3>Bag snapshot</h3>
+            <div th:if="${#lists.isEmpty(cartItems)}" class="empty-state">
+                <p>Your bag is ready for your next order.</p>
+            </div>
+            <ul th:unless="${#lists.isEmpty(cartItems)}">
+                <li th:each="item : ${cartItems}" th:text="${item.productName} + ' x ' + ${item.quantity}"></li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>Order history</h3>
+            <div th:if="${#lists.isEmpty(orders)}" class="empty-state">
+                <p>No orders yet. Start with a premium pet-care pick.</p>
+            </div>
+            <ul th:unless="${#lists.isEmpty(orders)}">
+                <li th:each="order : ${orders}" th:text="'Order #' + ${order.id} + ' - ' + ${order.status}"></li>
+            </ul>
+        </div>
+    </div>
+</section>
+</body>
+</html>

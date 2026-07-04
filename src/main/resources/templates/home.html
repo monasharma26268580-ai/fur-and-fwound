@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head><title>Fur & Found | Beautiful Living With Pets</title></head>
+<body>
+<section th:fragment="content" class="ff-home">
+    <section class="home-hero">
+        <div class="home-hero-copy">
+            <h1>Beautiful<br />Living With Pets</h1>
+            <p>Thoughtfully designed essentials for every walk, adventure, and quiet moment at home.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" th:href="@{/shop}">Shop Collection</a>
+                <a class="btn btn-secondary" th:href="@{/travel-with-pets}">Travel With Pets</a>
+            </div>
+        </div>
+    </section>
+
+    <nav class="home-category-strip" aria-label="Featured categories">
+        <a th:href="@{/category/casual-wear}"><span class="line-icon">Shirt</span><strong>Casual Wear</strong><small>Everyday comfort.</small></a>
+        <a th:href="@{/category/rainwear}"><span class="line-icon">Rain</span><strong>Rainwear</strong><small>For muddy paws.</small></a>
+        <a th:href="@{/category/care}"><span class="line-icon">Care</span><strong>Care</strong><small>Clean. Cozy. Loved.</small></a>
+        <a th:href="@{/category/home-comfort}"><span class="line-icon">Home</span><strong>Home</strong><small>Comfort for every nap.</small></a>
+        <a th:href="@{/category/accessories}"><span class="line-icon">Lead</span><strong>Accessories</strong><small>Adventure-ready.</small></a>
+    </nav>
+
+    <section class="home-feature-panel">
+        <div class="feature-copy">
+            <p class="eyebrow">Found Leash</p>
+            <h2>For the dogs<br />who love adventure.</h2>
+            <p>A premium leash with a hidden tracker compartment for peace of mind.</p>
+            <a class="btn btn-primary" th:href="@{/product/found-track-harness}">Explore Found Leash</a>
+        </div>
+        <div class="feature-image">
+            <img src="https://images.unsplash.com/photo-1556866261-8763a7662333?auto=format&fit=crop&w=1200&q=85" alt="Dog with adventure leash" />
+            <span class="feature-badge">Hidden<br />tracker<br />compartment</span>
+        </div>
+    </section>
+
+    <section class="section-head compact-head">
+        <h2>Best Sellers</h2>
+        <a th:href="@{/shop}">View all</a>
+    </section>
+    <div class="home-product-row">
+        <article class="mini-product" th:each="product : ${featuredProducts}">
+            <img th:src="${product.imageUrl}" th:alt="${product.name}" />
+            <h3 th:text="${product.name}"></h3>
+            <p th:text="'INR ' + ${product.price}"></p>
+        </article>
+    </div>
+
+    <section class="home-travel-card">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85" alt="Dog resting near a mountain campsite" />
+        <div>
+            <p class="eyebrow">Travel With Pets</p>
+            <h2>Travel Better. Together.</h2>
+            <p>Handpicked pet-friendly stays, cafes and experiences across India for you and your best friend.</p>
+            <a class="btn btn-primary" th:href="@{/travel-with-pets}">Explore Destinations</a>
+        </div>
+    </section>
+
+    <section class="section-head compact-head">
+        <h2>From The Journal</h2>
+        <a th:href="@{/journal}">Read all articles</a>
+    </section>
+    <div class="home-journal-row">
+        <article class="journal-card slow"><span>Lifestyle</span><h3>Why Dogs Teach Us to Slow Down</h3><p>5 min read</p></article>
+        <article class="journal-card indie"><span>Stories</span><h3>The Story of India's Indie Dogs</h3><p>6 min read</p></article>
+        <article class="journal-card vacation"><span>Travel</span><h3>Why Every Dog Deserves a Vacation</h3><p>4 min read</p></article>
+    </div>
+
+    <section class="social-strip">
+        <p>Follow our everyday adventures @furandfound</p>
+        <div>
+            <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=500&q=80" alt="Dog at home" />
+            <img src="https://images.unsplash.com/photo-1525253086316-d0c936c814f8?auto=format&fit=crop&w=500&q=80" alt="Dog resting" />
+            <img src="https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=500&q=80" alt="Dog portrait" />
+            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=500&q=80" alt="Dogs outdoors" />
+            <img src="https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?auto=format&fit=crop&w=500&q=80" alt="Dog adventure" />
+        </div>
+    </section>
+</section>
+</body>
+</html>

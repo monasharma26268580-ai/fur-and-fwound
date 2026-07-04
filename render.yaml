@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: fur-and-found
+    env: java
+    plan: free
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -jar target/fur-and-found-1.0.0.jar --spring.profiles.active=prod
+    envVars:
+      - key: JAVA_VERSION
+        value: 21
+      - key: PORT
+        value: 10000

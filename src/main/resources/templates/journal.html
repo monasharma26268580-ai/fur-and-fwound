@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head><title>Journal | Fur & Found</title></head>
+<body>
+<section th:fragment="content" class="page-shell">
+    <div class="page-heading">
+        <p class="eyebrow">From the journal</p>
+        <h1>Stories for slower, better pet living.</h1>
+        <p>Pet wellness notes, travel inspiration, and adoption-first stories from the Fur & Found world.</p>
+    </div>
+    <div class="journal-grid">
+        <a class="journal-link-card" th:href="@{/journal/why-dogs-teach-us-to-slow-down}">
+            <article><span>Lifestyle</span><h3>Why Dogs Teach Us to Slow Down</h3><p>Everyday rituals, better walks, and calmer homes.</p></article>
+        </a>
+        <a class="journal-link-card" th:href="@{/journal/the-story-of-indias-indie-dogs}">
+            <article><span>Stories</span><h3>The Story of India's Indie Dogs</h3><p>Resilience, loyalty, and the companions we find.</p></article>
+        </a>
+        <a class="journal-link-card" th:href="@{/journal/why-every-dog-deserves-a-vacation}">
+            <article><span>Travel</span><h3>Why Every Dog Deserves a Vacation</h3><p>How pet-friendly travel becomes more comfortable.</p></article>
+        </a>
+    </div>
+</section>
+</body>
+</html>

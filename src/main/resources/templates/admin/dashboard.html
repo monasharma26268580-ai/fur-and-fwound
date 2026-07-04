@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head><title>Admin dashboard</title></head>
+<body>
+<section th:fragment="content" class="page-shell">
+    <h1>Admin dashboard</h1>
+    <p>Manage product visibility, pricing, stock, and orders from this private workspace.</p>
+    <a class="btn btn-primary" th:href="@{/admin/products}">Manage products</a>
+</section>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head><title th:text="${article.title}">Journal Article</title></head>
+<body>
+<article th:fragment="content" class="page-shell article-shell">
+    <a class="back-link" th:href="@{/journal}">Back to journal</a>
+    <div class="page-heading">
+        <p class="eyebrow" th:text="${article.category}">Journal</p>
+        <h1 th:text="${article.title}">Article title</h1>
+        <p th:text="${article.metaDescription}">Article description</p>
+    </div>
+    <div class="article-body">
+        <p th:each="paragraph : ${article.paragraphs}" th:text="${paragraph}"></p>
+    </div>
+</article>
+</body>
+</html>

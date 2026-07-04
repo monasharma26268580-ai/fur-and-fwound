@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head><title>Login</title></head>
+<body>
+<section th:fragment="content" class="page-shell auth-shell">
+    <div class="page-heading">
+        <p class="eyebrow">Account access</p>
+        <h1>Welcome back</h1>
+        <p>Login with Google, email OTP, phone OTP, or your password.</p>
+    </div>
+
+    <form th:action="@{/auth/google/demo}" method="post" class="auth-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button class="btn btn-secondary" type="submit">Continue with Google</button>
+        <small>Demo mode signs you in instantly. Add Google OAuth credentials for real Google verification.</small>
+    </form>
+
+    <form th:action="@{/auth/otp/send}" method="post" class="auth-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <label>Login method
+            <select name="channel">
+                <option value="email" th:selected="${otpMode == 'email'}">Email OTP</option>
+                <option value="phone" th:selected="${otpMode == 'phone'}">Phone OTP</option>
+            </select>
+        </label>
+        <label>Email or phone<input type="text" name="destination" th:value="${destination}" placeholder="hello@example.com or +91..." required /></label>
+        <button class="btn btn-primary" type="submit">Send OTP</button>
+        <p th:if="${demoOtp}" class="otp-demo" th:text="'Demo OTP: ' + ${demoOtp}"></p>
+    </form>
+
+    <form th:if="${otpSent}" th:action="@{/auth/otp/verify}" method="post" class="auth-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <label>Enter OTP<input type="text" name="otp" maxlength="6" required /></label>
+        <button class="btn btn-primary" type="submit">Verify and continue</button>
+    </form>
+
+    <form th:action="@{/login}" method="post" class="auth-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <label>Email<input type="email" name="username" required /></label>
+        <label>Password<input type="password" name="password" required /></label>
+        <button type="submit">Login with password</button>
+    </form>
+
+    <p th:if="${error}" class="form-message" th:text="${error}"></p>
+    <p>New to Fur & Found? <a th:href="@{/register}">Create an account</a></p>
+</section>
+</body>
+</html>

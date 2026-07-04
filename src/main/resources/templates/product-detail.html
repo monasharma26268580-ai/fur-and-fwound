@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head><title th:text="${product != null ? product.name : 'Product'}">Product</title></head>
+<body>
+<section th:fragment="content" class="page-shell product-detail">
+    <div class="empty-state" th:if="${product == null}">
+        <p>This product is not available right now.</p>
+        <a class="btn btn-primary" th:href="@{/shop}">Back to shop</a>
+    </div>
+    <div class="detail-card" th:if="${product != null}">
+        <img th:src="${product.imageUrl}" th:alt="${product.name}" />
+        <div class="detail-copy">
+            <p class="eyebrow" th:text="${product.sku}">SKU</p>
+            <h1 th:text="${product.name}"></h1>
+            <p th:text="${product.description}"></p>
+            <p class="price" th:text="'INR ' + ${product.price}"></p>
+            <div class="detail-actions">
+                <form th:action="@{/cart/add/{slug}(slug=${product.slug})}" method="post" class="inline-form">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="number" name="quantity" value="1" min="1" />
+                    <button class="btn btn-primary" type="submit">Add to bag</button>
+                </form>
+                <form th:action="@{/wishlist/add/{slug}(slug=${product.slug})}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <button class="btn btn-secondary" type="submit">Wishlist</button>
+                </form>
+            </div>
+            <div class="detail-section"><h3>Highlights</h3><p th:text="${product.highlights}"></p></div>
+            <div class="detail-section"><h3>Material & Care</h3><p th:text="${product.careInfo}"></p></div>
+            <div class="detail-section"><h3>Ideal For</h3><p th:text="${product.idealUse}"></p></div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

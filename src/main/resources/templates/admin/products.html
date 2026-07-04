@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head><title>Admin products</title></head>
+<body>
+<section th:fragment="content" class="page-shell">
+    <h1>Product management</h1>
+    <a class="btn btn-primary" th:href="@{/admin/products/new}">Add product</a>
+    <div class="product-grid">
+        <div class="product-card" th:each="product : ${products}">
+            <h3 th:text="${product.name}"></h3>
+            <p th:text="${product.seoDescription}"></p>
+            <p th:text="'Stock: ' + ${product.stockQuantity}"></p>
+        </div>
+    </div>
+</section>
+</body>
+</html>

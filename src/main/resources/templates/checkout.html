@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head><title>Checkout</title></head>
+<body>
+<section th:fragment="content" class="page-shell">
+    <div class="page-heading">
+        <p class="eyebrow">Secure checkout</p>
+        <h1>Checkout</h1>
+        <p>Confirm your bag and pay securely with Razorpay.</p>
+    </div>
+    <div class="checkout-grid">
+        <div class="checkout-card">
+            <h2>Delivery details</h2>
+            <label>Shipping address</label>
+            <textarea id="shipping-address" placeholder="Full name, phone, house number, street, city, state, PIN"></textarea>
+        </div>
+        <div class="checkout-card">
+            <h2>Order summary</h2>
+            <div th:if="${#lists.isEmpty(items)}" class="empty-state">
+                <p>Your bag is empty.</p>
+            </div>
+            <div th:each="item : ${items}" class="cart-item compact">
+                <h3 th:text="${item.productName}"></h3>
+                <p th:text="${item.quantity} + ' x INR ' + ${item.price}"></p>
+            </div>
+            <button class="btn btn-primary" id="rzp-button" type="button" th:disabled="${#lists.isEmpty(items)}">Pay with Razorpay</button>
+            <p id="payment-message" class="form-message"></p>
+        </div>
+    </div>
+</section>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+    const message = document.getElementById('payment-message');
+    document.getElementById('rzp-button').onclick = async function() {
+        const address = document.getElementById('shipping-address').value.trim();
+        if (!address) {
+            message.textContent = 'Please add a shipping address before payment.';
+            return;
+        }
+        const response = await fetch('/api/checkout/razorpay-order', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', [csrfHeader]: csrfToken},
+            body: JSON.stringify({address})
+        });
+        const data = await response.json();
+        if (data.error) {
+            message.textContent = data.error;
+            return;
+        }
+        const confirmPayment = async function(paymentResponse) {
+            const confirmation = await fetch('/checkout/confirm', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', [csrfHeader]: csrfToken},
+                body: JSON.stringify({...paymentResponse, localOrderId: data.localOrderId})
+            });
+            const result = await confirmation.json();
+            if (result.ok) {
+                window.location.href = result.redirect;
+            } else {
+                message.textContent = result.message || 'Payment could not be verified.';
+            }
+        };
+        if (!window.Razorpay || data.key === 'rzp_test_demo') {
+            await confirmPayment({razorpay_order_id: data.orderId, razorpay_payment_id: 'demo-payment', razorpay_signature: 'demo-signature'});
+            return;
+        }
+        const rzp = new Razorpay({
+            key: data.key,
+            amount: data.amount,
+            currency: data.currency,
+            name: data.name,
+            description: data.description,
+            order_id: data.orderId,
+            handler: confirmPayment
+        });
+        rzp.open();
+    };
+</script>
+</body>
+</html>
